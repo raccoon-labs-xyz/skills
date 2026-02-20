@@ -13,6 +13,24 @@ skills/
     scripts/        # Optional - executable utilities
 ```
 
+## Marketplace Installation
+
+Register the marketplace once:
+```
+/plugin marketplace add raccoonlabs/claude-skills
+```
+
+Then install any skill:
+```
+/plugin install certora-verify@raccoonlabs
+/plugin install halmos-skill@raccoonlabs
+```
+
+Or install directly (legacy):
+```
+cp -r skills/certora-verify ~/.claude/skills/
+```
+
 ## Creating a New Skill
 
 1. Create a directory under `skills/` with your skill name (lowercase, hyphens only)

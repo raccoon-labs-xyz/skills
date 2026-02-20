@@ -1,0 +1,21 @@
+{
+  "name": "raccoonlabs",
+  "description": "RaccoonLabs Claude Skills — Web3 & smart contract development tools and utilities",
+  "owner": { "name": "RaccoonLabs", "url": "https://github.com/raccoonlabs" },
+  "plugins": [
+    {
+      "name": "certora-skill",
+      "description": "Formally verify EVM smart contracts using Certora Verification Language (CVL) and Certora Prover",
+      "version": "1.0.0",
+      "source": "./skills/certora-skill",
+      "tags": ["formal-verification", "solidity", "certora", "web3"]
+    },
+    {
+      "name": "halmos-skill",
+      "description": "Symbolic testing for EVM contracts with Halmos + Foundry",
+      "version": "1.0.0",
+      "source": "./skills/halmos-skill",
+      "tags": ["symbolic-testing", "foundry", "halmos", "web3"]
+    }
+  ]
+}

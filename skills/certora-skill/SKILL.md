@@ -1,5 +1,5 @@
 ---
-name: certora-verify
+name: certora-skill
 description: Formally verify EVM smart contracts using Certora Verification Language (CVL) and Certora Prover. Use this skill when the user asks to "formally verify a smart contract", "write Certora specs", "write CVL rules", "create a .spec file", "verify ERC-20", "verify ERC-721", "verify invariants", "write formal verification", "certora prover", or discusses formal verification of Solidity code.
 ---
 
