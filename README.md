@@ -15,7 +15,7 @@ A collection of Claude Code skills focused on Web3 and smart contract formal ver
 
 Register the marketplace once:
 ```bash
-/plugin marketplace add raccoonlabs/claude-skills
+/plugin marketplace add raccoon-labs-xyz/claude-skills
 ```
 
 Then install any skill:
