@@ -1,0 +1,7 @@
+{
+  "name": "halmos-skill",
+  "description": "Symbolic testing for EVM contracts with Halmos + Foundry",
+  "version": "1.0.0",
+  "author": "raccoon-labs-xyz",
+  "tags": ["symbolic-testing", "foundry", "halmos", "web3"]
+}

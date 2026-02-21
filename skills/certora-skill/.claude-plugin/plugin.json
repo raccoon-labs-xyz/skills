@@ -1,0 +1,7 @@
+{
+  "name": "certora-skill",
+  "description": "Formally verify EVM smart contracts using Certora Verification Language (CVL) and Certora Prover",
+  "version": "1.0.0",
+  "author": "raccoon-labs-xyz",
+  "tags": ["formal-verification", "solidity", "certora", "web3"]
+}
