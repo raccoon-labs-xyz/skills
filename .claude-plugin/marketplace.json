@@ -1,21 +1,30 @@
 {
-  "name": "raccoonlabs",
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "raccoon-labs-xyz",
   "description": "RaccoonLabs Claude Skills — Web3 & smart contract development tools and utilities",
-  "owner": { "name": "RaccoonLabs", "url": "https://github.com/raccoonlabs" },
+  "owner": {
+    "name": "raccoon-labs-xyz"
+  },
   "plugins": [
     {
       "name": "certora-skill",
       "description": "Formally verify EVM smart contracts using Certora Verification Language (CVL) and Certora Prover",
       "version": "1.0.0",
-      "source": "./skills/certora-skill",
-      "tags": ["formal-verification", "solidity", "certora", "web3"]
+      "author": {
+        "name": "raccoon-labs-xyz"
+      },
+      "source": "./plugins/certora-skill",
+      "category": "development"
     },
     {
       "name": "halmos-skill",
       "description": "Symbolic testing for EVM contracts with Halmos + Foundry",
       "version": "1.0.0",
-      "source": "./skills/halmos-skill",
-      "tags": ["symbolic-testing", "foundry", "halmos", "web3"]
+      "author": {
+        "name": "raccoon-labs-xyz"
+      },
+      "source": "./plugins/halmos-skill",
+      "category": "development"
     }
   ]
 }

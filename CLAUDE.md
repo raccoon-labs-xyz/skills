@@ -5,7 +5,7 @@ This repository contains a collection of custom skills for Claude Code.
 ## Structure
 
 ```
-skills/
+plugins/
   <skill-name>/
     SKILL.md        # Required - skill definition with YAML frontmatter
     references/     # Optional - detailed docs loaded on demand
@@ -28,14 +28,14 @@ Then install any skill:
 
 Or install directly (legacy):
 ```
-cp -r skills/certora-verify ~/.claude/skills/
+cp -r plugins/certora-verify ~/.claude/plugins/
 ```
 
 ## Creating a New Skill
 
-1. Create a directory under `skills/` with your skill name (lowercase, hyphens only)
+1. Create a directory under `plugins/` with your skill name (lowercase, hyphens only)
 2. Add a `SKILL.md` with YAML frontmatter (`name`, `description`) and markdown instructions
-3. Symlink or copy to `~/.claude/skills/` to activate
+3. Symlink or copy to `~/.claude/plugins/` to activate
 
 ## Conventions
 

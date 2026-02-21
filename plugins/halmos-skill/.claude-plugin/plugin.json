@@ -1,0 +1,7 @@
+{
+  "name": "halmos-skill",
+  "description": "Symbolic testing for EVM contracts with Halmos + Foundry",
+  "author": {
+    "name": "raccoon-labs-xyz"
+  }
+}

@@ -6,8 +6,8 @@ A collection of Claude Code skills focused on Web3 and smart contract formal ver
 
 | Skill | Description |
 |-------|-------------|
-| [certora-skill](skills/certora-skill/) | Formally verify EVM smart contracts using Certora Verification Language (CVL) and Certora Prover |
-| [halmos-skill](skills/halmos-skill/) | Symbolic testing for EVM contracts with Halmos + Foundry |
+| [certora-skill](plugins/certora-skill/) | Formally verify EVM smart contracts using Certora Verification Language (CVL) and Certora Prover |
+| [halmos-skill](plugins/halmos-skill/) | Symbolic testing for EVM contracts with Halmos + Foundry |
 
 ## Installation
 
@@ -27,8 +27,8 @@ Then install any skill:
 ### Direct (legacy)
 
 ```bash
-cp -r skills/certora-skill ~/.claude/skills/
-cp -r skills/halmos-skill ~/.claude/skills/
+cp -r plugins/certora-skill ~/.claude/plugins/
+cp -r plugins/halmos-skill ~/.claude/plugins/
 ```
 
 ## Repository Structure
@@ -37,7 +37,7 @@ cp -r skills/halmos-skill ~/.claude/skills/
 claude-skills/
 ├── .claude-plugin/
 │   └── marketplace.json      # Marketplace catalog
-└── skills/
+└── plugins/
     ├── certora-skill/
     │   ├── .claude-plugin/
     │   │   └── plugin.json   # Plugin manifest
@@ -53,7 +53,7 @@ claude-skills/
 
 ## Adding a New Skill
 
-1. Create a directory under `skills/` with your skill name (lowercase, hyphens only)
+1. Create a directory under `plugins/` with your skill name (lowercase, hyphens only)
 2. Add a `SKILL.md` with YAML frontmatter (`name`, `description`) and markdown instructions
 3. Add a matching entry under `plugins/` and register it in `.claude-plugin/marketplace.json`
 
