@@ -8,6 +8,8 @@ A collection of Claude Code skills focused on Web3 and smart contract formal ver
 |-------|-------------|
 | [certora-skill](plugins/certora-skill/) | Formally verify EVM smart contracts using Certora Verification Language (CVL) and Certora Prover |
 | [halmos-skill](plugins/halmos-skill/) | Symbolic testing for EVM contracts with Halmos + Foundry |
+| [solidity-architect](plugins/solidity-architect/) | Reviews and optimizes Solidity smart contract architecture for production-grade protocols |
+| [solidity-tree-gen](plugins/solidity-tree-gen/) | Generates comprehensive Bulloak-format .tree files for Foundry concrete test directories |
 
 ## Installation
 
@@ -22,6 +24,8 @@ Then install any skill:
 ```bash
 /plugin install certora-skill@raccoonlabs
 /plugin install halmos-skill@raccoonlabs
+/plugin install solidity-architect@raccoonlabs
+/plugin install solidity-tree-gen@raccoonlabs
 ```
 
 ### Direct (legacy)
@@ -29,6 +33,8 @@ Then install any skill:
 ```bash
 cp -r plugins/certora-skill ~/.claude/plugins/
 cp -r plugins/halmos-skill ~/.claude/plugins/
+cp -r plugins/solidity-architect ~/.claude/plugins/
+cp -r plugins/solidity-tree-gen ~/.claude/plugins/
 ```
 
 ## Repository Structure
@@ -44,11 +50,20 @@ claude-skills/
     │   ├── SKILL.md
     │   ├── references/
     │   └── examples/
-    └── halmos-skill/
+    ├── halmos-skill/
+    │   ├── .claude-plugin/
+    │   │   └── plugin.json   # Plugin manifest
+    │   ├── SKILL.md
+    │   └── references/
+    ├── solidity-architect/
+    │   ├── .claude-plugin/
+    │   │   └── plugin.json   # Plugin manifest
+    │   ├── SKILL.md
+    │   └── evals/
+    └── solidity-tree-gen/
         ├── .claude-plugin/
         │   └── plugin.json   # Plugin manifest
-        ├── SKILL.md
-        └── references/
+        └── SKILL.md
 ```
 
 ## Adding a New Skill

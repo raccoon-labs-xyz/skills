@@ -1,0 +1,49 @@
+{
+  "skill_name": "solidity-architect",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I have a lending protocol where Pool.sol is 800 lines long, has all the borrow/supply/liquidate logic inline, and error messages like require(amount > 0, 'Amount must be greater than zero'). How should I restructure this?",
+      "expected_output": "Detailed architecture plan: split into logic libraries (SupplyLogic, BorrowLogic, LiquidationLogic, ValidationLogic), extract Errors.sol with numeric codes/custom errors, separate PoolStorage.sol, create DataTypes.sol for structs, thin facade Pool.sol that delegates. Should include concrete file structure and before/after code.",
+      "files": [],
+      "assertions": [
+        {"id": "mentions_logic_libraries", "description": "Recommends splitting logic into dedicated library files (SupplyLogic, BorrowLogic, LiquidationLogic, etc.)", "type": "content_check"},
+        {"id": "mentions_errors_library", "description": "Recommends centralizing errors in a single Errors.sol file", "type": "content_check"},
+        {"id": "mentions_storage_separation", "description": "Recommends separating storage into a PoolStorage contract or similar", "type": "content_check"},
+        {"id": "mentions_datatypes", "description": "Recommends DataTypes library or parameter structs for function parameters", "type": "content_check"},
+        {"id": "provides_code_examples", "description": "Shows concrete Solidity code examples, not just abstract advice", "type": "content_check"},
+        {"id": "mentions_numeric_or_custom_errors", "description": "Recommends numeric error codes or custom errors for gas efficiency", "type": "content_check"},
+        {"id": "mentions_thin_facade", "description": "Explains that main contract should be a thin facade delegating to libraries", "type": "content_check"},
+        {"id": "provides_file_structure", "description": "Shows a concrete directory/file structure for the refactored protocol", "type": "content_check"}
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Here's my ReserveConfig struct:\n```solidity\nstruct ReserveConfig {\n  bool isActive;\n  bool isFrozen;\n  bool isPaused;\n  bool borrowingEnabled;\n  bool stableBorrowEnabled;\n  bool flashloanEnabled;\n  uint16 ltv;\n  uint16 liquidationThreshold;\n  uint16 liquidationBonus;\n  uint8 decimals;\n}\n```\nI'm storing one of these per reserve. How can I make this more gas efficient?",
+      "expected_output": "Explain bitpacking into a single uint256 using bitmasks, show the ReserveConfiguration library pattern with bit position constants and setter/getter functions using bitwise AND/OR. Include concrete code showing at least 2-3 fields being packed/unpacked.",
+      "files": [],
+      "assertions": [
+        {"id": "mentions_bitpacking", "description": "Explains bitpacking / packing into a single uint256", "type": "content_check"},
+        {"id": "shows_bit_positions", "description": "Shows concrete bit position constants or masks", "type": "content_check"},
+        {"id": "shows_setter_getter", "description": "Shows concrete setter and getter functions using bitwise AND/OR", "type": "content_check"},
+        {"id": "mentions_storage_slots", "description": "Explains that each storage slot is 32 bytes and packing reduces slots used", "type": "content_check"},
+        {"id": "recommends_library_pattern", "description": "Recommends wrapping the bitpacked uint256 in a library (ReserveConfiguration pattern)", "type": "content_check"},
+        {"id": "shows_all_fields_packed", "description": "Demonstrates packing multiple different field types (bool AND uint16 together)", "type": "content_check"}
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "My DeFi protocol has errors scattered everywhere:\n- Pool.sol: require(msg.sender == admin, 'Only admin');\n- Token.sol: require(amount > 0, 'Invalid amount');\n- Vault.sol: require(amount > 0, 'Invalid amount'); // duplicated!\n- Strategy.sol: require(isActive, 'Strategy not active');\nHow should I organize errors properly?",
+      "expected_output": "Create centralized Errors.sol library with all error constants (numeric codes or custom errors), explain deduplication, show usage via require(cond, Errors.CONSTANT) or revert CustomError(), explain gas benefits of numeric codes and custom errors vs long strings.",
+      "files": [],
+      "assertions": [
+        {"id": "recommends_errors_library", "description": "Recommends a dedicated Errors.sol library with all error constants", "type": "content_check"},
+        {"id": "shows_errors_sol_code", "description": "Shows concrete Errors.sol code with constants", "type": "content_check"},
+        {"id": "mentions_gas_benefit", "description": "Explains gas benefits of numeric codes or custom errors vs long strings", "type": "content_check"},
+        {"id": "mentions_custom_errors", "description": "Mentions Solidity custom errors (error Foo() syntax, revert Foo())", "type": "content_check"},
+        {"id": "shows_usage_example", "description": "Shows how to use the centralized errors in require() or revert statements", "type": "content_check"},
+        {"id": "addresses_deduplication", "description": "Addresses the duplication issue", "type": "content_check"}
+      ]
+    }
+  ]
+}

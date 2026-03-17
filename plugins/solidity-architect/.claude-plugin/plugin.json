@@ -1,0 +1,7 @@
+{
+  "name": "solidity-architect",
+  "description": "Reviews and optimizes Solidity smart contract architecture for production-grade protocols",
+  "author": {
+    "name": "raccoon-labs-xyz"
+  }
+}

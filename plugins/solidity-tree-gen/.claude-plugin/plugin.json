@@ -1,0 +1,7 @@
+{
+  "name": "solidity-tree-gen",
+  "description": "Generates comprehensive Bulloak-format .tree files for Foundry concrete test directories",
+  "author": {
+    "name": "raccoon-labs-xyz"
+  }
+}
