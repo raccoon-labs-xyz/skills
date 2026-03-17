@@ -25,6 +25,26 @@
       },
       "source": "./plugins/halmos-skill",
       "category": "development"
+    },
+    {
+      "name": "solidity-architect",
+      "description": "Reviews and optimizes Solidity smart contract architecture for production-grade protocols",
+      "version": "1.0.0",
+      "author": {
+        "name": "raccoon-labs-xyz"
+      },
+      "source": "./plugins/solidity-architect",
+      "category": "development"
+    },
+    {
+      "name": "solidity-tree-gen",
+      "description": "Generates comprehensive Bulloak-format .tree files for Foundry concrete test directories",
+      "version": "1.0.0",
+      "author": {
+        "name": "raccoon-labs-xyz"
+      },
+      "source": "./plugins/solidity-tree-gen",
+      "category": "development"
     }
   ]
 }
