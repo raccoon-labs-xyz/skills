@@ -14,6 +14,32 @@ A `.tree` file is not a list of what tests exist — it's a specification of wha
 
 ---
 
+## CORE PRINCIPLE: Trees Are Specifications, Not Code Mirrors
+
+> **This is the single most important rule in this skill. Violating it produces trees that are useless for catching bugs.**
+
+**The tree describes ideal, correct behavior — not what the current implementation happens to do.**
+
+When you read the source code, you are gathering facts about *inputs, state, and paths*. You are **not** transcribing the code's current logic into tree form. The moment you write a `.tree` that merely reflects what the code already does, you have created a tautology: every test will pass by construction, and no real bug can ever be caught.
+
+Instead, ask: *"What SHOULD happen here?"* Then write that. If the code disagrees — a missing event, a skipped validation, a wrong state mutation — the failing test is the mechanism that surfaces the bug. That is exactly what tests are for.
+
+### Concrete rules that follow from this principle:
+
+1. **Write every assertion from first principles, not from reading the code.** Think: "For this input and state, what is the correct output?" Then write `it <correct output>`. Only *then* check the code — and if it diverges, write the spec's version anyway and note the discrepancy.
+
+2. **Never omit an assertion because the code doesn't do it yet.** If a setter should emit an event, write `it emits X`. If a function should revert on zero-address input, write `when the address is zero → it reverts`. The tree is the ideal contract; the code is the current approximation.
+
+3. **Derive assertions from the protocol's invariants, not from the code's current guards.** Ask: what properties must always hold? (e.g. "total supply never exceeds cap", "only one active pool per creator", "fee recipient always receives the fee"). Each invariant is a test case even if the code doesn't explicitly check it.
+
+4. **Include cases the code ignores but shouldn't.** A common source of bugs is missing guards — zero amounts, uninitialized state, wrong ordering. Write `when X → it reverts` for every case where reverting is the correct behavior, whether or not the current code actually reverts.
+
+5. **Flag divergences explicitly.** When you notice the tree spec differs from the implementation (e.g. you wrote `it emits FeeUpdated` but the code doesn't emit it), add a comment in the summary: *"NOTE: tree specifies event emission but implementation is silent — this is intentional; let the test surface the gap."*
+
+A tree that **only** contains cases the code already handles is a weak tree. A tree that contains cases the code *should* handle is a strong tree. Always write the strong tree.
+
+---
+
 ## Phase 0: Orient
 
 Before generating anything, do the following:
@@ -111,7 +137,7 @@ Rules:
 
 **Happy path — events:**
 - [ ] Each event that fires: with which arguments
-- [ ] **The tree is a spec, not an implementation mirror.** If the code *should* emit an event but doesn't, write `it emits X` anyway. The failing test is the right moment to make the design call — not silently skipping the assertion because the current code omits it.
+- [ ] **SPEC RULE (see Core Principle above): the tree describes what SHOULD happen, not what the code currently does.** If the code *should* emit an event but doesn't, write `it emits X` anyway — the failing test surfaces the gap. Never skip an assertion just because the current code omits the behavior.
 - [ ] **For constructors specifically**: trace the full inheritance chain for events (e.g., OZ `Ownable` emits `OwnershipTransferred(address(0), owner)` in its constructor). Then cross-check every state mutation against its corresponding setter: if `setFeeConfig()` emits `FeeConfigUpdated`, the constructor initializing `feeConfig` should also include `it emits FeeConfigUpdated`. Write the spec as it *should* be — the tests will surface any divergence from the implementation.
 
 **Happy path — return values:**
@@ -184,3 +210,5 @@ After writing the file, print a short summary:
 The trees in this codebase that are worth emulating are the detailed ERC404 ones (`test/concrete/ERC404/`). The existing BCF trees (`BCF.buy.tree`, `BCF.injectPool.tree`) are sparse — they capture a fraction of what the tests actually cover. Your goal is the opposite: the tree should be richer than the existing test file, covering cases that haven't been implemented yet.
 
 A good tree for a function like `buy()` should have 25–40 branches. A simple setter like `setOracle()` might only need 8–12. Use judgment — don't pad, but don't leave real scenarios on the table.
+
+**Self-check before finalizing:** Ask yourself — *"If the implementation had a common bug (missing revert, wrong state update, skipped event, off-by-one on a threshold), would this tree catch it?"* If the answer is no for any realistic bug class, add the missing branches. A tree that only passes against a correct implementation and also passes against a broken one is not a spec — it's dead weight.
