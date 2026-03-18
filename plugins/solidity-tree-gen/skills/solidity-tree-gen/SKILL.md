@@ -78,6 +78,22 @@ Rules:
 - Nest conditions when one scenario is a sub-case of another
 - Each `it` leaf should map to one `assert*` call in a test
 - Never write vague assertions like "it works correctly" — be specific: "it increases soldSupply by the minted amount"
+- **CRITICAL — no duplicate sibling `when` nodes**: every `when` branch at the same nesting level must have a unique description. Bulloak derives a Solidity identifier from the `when` text; identical siblings cause a compile error. If multiple `it` assertions share the same condition, place them as sibling `it` leaves under one `when`, do NOT repeat the `when` line.
+
+  ✅ Correct:
+  ```
+  ├── when the pool is active and unpaused
+  │   ├── it allows buy calls to succeed
+  │   ├── it allows sell calls to succeed
+  │   └── it makes isPoolActive return true
+  ```
+  ❌ Wrong (duplicate sibling `when`):
+  ```
+  ├── when the pool is active and unpaused
+  │   └── it allows buy calls to succeed
+  ├── when the pool is active and unpaused        ← DUPLICATE — bulloak error
+  │   └── it allows sell calls to succeed
+  ```
 
 ### Coverage checklist — every tree must address:
 
@@ -121,6 +137,38 @@ Rules:
 Write the `.tree` file to the correct path: `test/concrete/<ContractName>/<functionName>/<Prefix>.<functionName>.tree`
 
 The filename prefix follows the existing convention in the project (e.g. `BCF` for `BondingCurveFactory`, `TAR` for `TieredAccessRegistry`, `ERC404` for ERC404).
+
+### Validate with bulloak
+
+After writing the file, **always** run bulloak to confirm the tree parses without errors:
+
+```bash
+bulloak check <path/to/File.tree>
+```
+
+If bulloak reports errors, fix them before proceeding. The most common causes are:
+- Parentheses `(` or `)` in `when`/`it` text — replace with plain English (e.g. `(soldCount >= maxCount)` → `so that soldCount equals maxCount`)
+- Dollar signs `$` — write out the amount in words (e.g. `$25 000` → `25000 USD`)
+- Special characters (`±`, `→`, etc.) — replace with ASCII equivalents
+- Duplicate sibling `when` nodes at the same level — merge their `it` leaves under one `when`
+
+Keep fixing and re-running `bulloak check` until it exits cleanly with no errors.
+
+### Adding stubs to an existing `.t.sol`
+
+> **Only do this if the user explicitly asks** (e.g. "add the tests", "scaffold stubs", "apply to sol file").
+
+When the user wants to sync the tree into an existing test file without overwriting existing tests, use:
+
+```bash
+# Preview what would be added (dry run):
+bulloak check --fix --stdout <path/to/File.tree>
+
+# Write missing stubs into the .t.sol:
+bulloak check --fix <path/to/File.tree>
+```
+
+`bulloak check --fix` only **adds** missing test function stubs — it never removes or modifies existing tests.
 
 After writing the file, print a short summary:
 - How many `when` branches
