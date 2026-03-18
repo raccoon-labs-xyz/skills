@@ -111,6 +111,8 @@ Rules:
 
 **Happy path — events:**
 - [ ] Each event that fires: with which arguments
+- [ ] **The tree is a spec, not an implementation mirror.** If the code *should* emit an event but doesn't, write `it emits X` anyway. The failing test is the right moment to make the design call — not silently skipping the assertion because the current code omits it.
+- [ ] **For constructors specifically**: trace the full inheritance chain for events (e.g., OZ `Ownable` emits `OwnershipTransferred(address(0), owner)` in its constructor). Then cross-check every state mutation against its corresponding setter: if `setFeeConfig()` emits `FeeConfigUpdated`, the constructor initializing `feeConfig` should also include `it emits FeeConfigUpdated`. Write the spec as it *should* be — the tests will surface any divergence from the implementation.
 
 **Happy path — return values:**
 - [ ] What the function returns in the normal case
