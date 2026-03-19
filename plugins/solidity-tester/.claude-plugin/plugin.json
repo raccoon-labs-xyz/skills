@@ -1,0 +1,7 @@
+{
+  "name": "solidity-tester",
+  "description": "Implements Foundry test assertions into bulloak-scaffolded Solidity test stubs",
+  "author": {
+    "name": "raccoon-labs-xyz"
+  }
+}

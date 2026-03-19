@@ -45,6 +45,16 @@
       },
       "source": "./plugins/solidity-tree-gen",
       "category": "development"
+    },
+    {
+      "name": "solidity-tester",
+      "description": "Implements Foundry test assertions into bulloak-scaffolded Solidity test stubs",
+      "version": "1.0.0",
+      "author": {
+        "name": "raccoon-labs-xyz"
+      },
+      "source": "./plugins/solidity-tester",
+      "category": "development"
     }
   ]
 }
