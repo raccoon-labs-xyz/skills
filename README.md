@@ -10,6 +10,7 @@ A collection of Claude Code skills focused on Web3 and smart contract formal ver
 | [halmos-skill](plugins/halmos-skill/) | Symbolic testing for EVM contracts with Halmos + Foundry |
 | [solidity-architect](plugins/solidity-architect/) | Reviews and optimizes Solidity smart contract architecture for production-grade protocols |
 | [solidity-tree-gen](plugins/solidity-tree-gen/) | Generates comprehensive Bulloak-format .tree files for Foundry concrete test directories |
+| [solidity-tester](plugins/solidity-tester/) | Implements Foundry test assertions into bulloak-scaffolded Solidity test stubs |
 
 ## Installation
 
@@ -26,6 +27,7 @@ Then install any skill:
 /plugin install halmos-skill@raccoonlabs
 /plugin install solidity-architect@raccoonlabs
 /plugin install solidity-tree-gen@raccoonlabs
+/plugin install solidity-tester@raccoonlabs
 ```
 
 ### Direct (legacy)
@@ -35,6 +37,7 @@ cp -r plugins/certora-skill ~/.claude/plugins/
 cp -r plugins/halmos-skill ~/.claude/plugins/
 cp -r plugins/solidity-architect ~/.claude/plugins/
 cp -r plugins/solidity-tree-gen ~/.claude/plugins/
+cp -r plugins/solidity-tester ~/.claude/plugins/
 ```
 
 ## Repository Structure
@@ -60,7 +63,11 @@ claude-skills/
     │   │   └── plugin.json   # Plugin manifest
     │   ├── SKILL.md
     │   └── evals/
-    └── solidity-tree-gen/
+    ├── solidity-tree-gen/
+    │   ├── .claude-plugin/
+    │   │   └── plugin.json   # Plugin manifest
+    │   └── SKILL.md
+    └── solidity-tester/
         ├── .claude-plugin/
         │   └── plugin.json   # Plugin manifest
         └── SKILL.md

@@ -106,6 +106,61 @@ Rules:
 - Never write vague assertions like "it works correctly" — be specific: "it increases soldSupply by the minted amount"
 - **CRITICAL — no duplicate sibling `when` nodes**: every `when` branch at the same nesting level must have a unique description. Bulloak derives a Solidity identifier from the `when` text; identical siblings cause a compile error. If multiple `it` assertions share the same condition, place them as sibling `it` leaves under one `when`, do NOT repeat the `when` line.
 
+### Nested `when` nodes become Solidity modifiers — not test functions
+
+This is a key bulloak behavior to understand when designing trees. **When a `when` node has child `when` nodes (rather than only `it` leaves), bulloak generates a Solidity `modifier` for it, not a `test_*` function.** Every test nested beneath that `when` will have the modifier applied to its function signature automatically.
+
+Use this pattern intentionally to express shared preconditions. When multiple test branches all depend on the same world state (e.g. "pool exists and is active"), wrap them inside a parent `when` — bulloak will turn that parent into a modifier and attach it to all children.
+
+**Example:**
+```
+BondingCurveFactory.buy
+├── when the pool is paused
+│   └── it reverts with PoolIsPaused
+└── when the pool is not paused
+    ├── when the caller has insufficient balance
+    │   └── it reverts with InsufficientBalance
+    └── when the caller has sufficient balance
+        ├── it transfers tokens from caller
+        └── it emits TokensPurchased
+```
+
+Bulloak scaffolds this as:
+```solidity
+modifier whenThePoolIsNotPaused() {
+    // precondition setup: create pool, do NOT pause it
+    _;
+}
+
+function test_WhenTheCallerHasInsufficientBalance()
+    external
+    whenThePoolIsNotPaused
+{
+    // it reverts with InsufficientBalance
+}
+
+function test_WhenTheCallerHasSufficientBalance()
+    external
+    whenThePoolIsNotPaused
+{
+    // it transfers tokens from caller
+    // it emits TokensPurchased
+}
+```
+
+The modifier body is where the precondition is set up (e.g. deploy the pool, ensure it is not paused). The `solidity-tester` skill is responsible for implementing that body.
+
+**When to use nested `when` (modifier pattern):**
+- Multiple test cases share the same world-state setup (active pool, specific role, graduated state, etc.)
+- The shared precondition is non-trivial to express in a single `it` assertion
+- Grouping under the parent `when` makes the specification clearer and avoids repeating setup across sibling tests
+
+**When NOT to nest:**
+- A `when` with only `it` children is a plain test function — do not add unnecessary nesting just to create a modifier
+- If only one child test exists under a `when`, the modifier adds overhead without benefit; prefer a flat structure
+
+> **Rule of thumb:** only introduce a parent `when` (and therefore a modifier) when **at least two sibling tests share the exact same precondition**. A modifier that guards a single test is dead weight — it adds indirection without expressing any shared structure. If you find yourself writing a parent `when` with a single child `when` beneath it, flatten the tree instead.
+
   ✅ Correct:
   ```
   ├── when the pool is active and unpaused
